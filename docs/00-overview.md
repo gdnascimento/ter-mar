@@ -44,8 +44,9 @@ Five limits follow, and they shape every design decision in this repository:
 
 Everything heavy runs offline. `pipeline/` downloads, transforms, models and
 emits a handful of small JSON files into `site/data/`. `site/` is static HTML
-that reads them. A GitHub Actions workflow runs the pipeline on a schedule and
-deploys the site. The browser never sees a record-level row.
+that reads them. A GitHub Actions workflow runs the pipeline on demand and,
+once milestone M6 opens the gate, deploys the site. The browser never sees a
+record-level row.
 
 ## Non-goals for version 1
 

@@ -3,9 +3,9 @@ name: pipeline
 # The site build never touches DATASUS. This workflow runs the pipeline,
 # commits the emitted artifacts, and deploys. Running it is the only way
 # site/data/ changes.
+# No schedule until milestone M6. Nothing publishes unless a person presses
+# the button, and the deploy job below is gated on top of that.
 on:
-  schedule:
-    - cron: '41 4 1 * *'   # monthly; DATASUS revises past competencias
   workflow_dispatch:
     inputs:
       ufs:
@@ -64,8 +64,13 @@ jobs:
           git diff --quiet --cached || git commit -m "data: refresh emitted artifacts"
           git push
 
+  # Gated until M6. docs/06-acceptance.md: nothing is published publicly
+  # before the sensitivity analyses and the methodology page are done.
+  # To open the gate, set the repository variable PUBLISH_ENABLED to "true"
+  # and enable Pages in repository settings (Settings > Pages > GitHub Actions).
   deploy:
     needs: run
+    if: vars.PUBLISH_ENABLED == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

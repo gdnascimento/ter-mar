@@ -1,5 +1,16 @@
 # ter-mar
 
+> ### Status: scaffold — no validated results
+>
+> This repository contains **no computed figures**. Nothing in it has been
+> through the sensitivity analyses in `docs/06-acceptance.md`, and the site is
+> not published.
+>
+> **Do not cite any number from this repository.** If it later produces output,
+> that output is not a ranking of hospitals or of municípios, and reading it as
+> one is a mistake the methodology is specifically designed to prevent — see
+> `docs/02-methodology.md`.
+
 Comparação de desfechos em UTI entre municípios brasileiros, a partir de dados
 abertos do SIH/SUS, publicada como página estática.
 
@@ -10,7 +21,11 @@ league table.
 
 ## Status
 
-Scaffold. No pipeline code written yet. See `docs/05-milestones.md`.
+Milestone M0 complete: contracts, documentation and stubs. No pipeline code
+written yet. Work order and the M4 decision gate: `docs/05-milestones.md`.
+
+The pipeline workflow runs on manual dispatch only, and its deploy job is gated
+behind the `PUBLISH_ENABLED` repository variable. Both stay closed until M6.
 
 ## Quick start
 
@@ -45,5 +60,9 @@ if you are a person.
 
 ## Licence
 
-TODO: choose before first publication. Recommended: MIT for the code, CC BY 4.0
-for the derived aggregates. The underlying DATASUS data is public.
+- **Code** — MIT, see `LICENSE`.
+- **Derived aggregates** (anything under `site/data/`) — CC BY 4.0, see
+  `LICENSE-DATA.md`.
+
+The underlying SIH/SUS, CNES and IBGE data is public. Attribution requirements
+for reuse of the aggregates are in `LICENSE-DATA.md`.
