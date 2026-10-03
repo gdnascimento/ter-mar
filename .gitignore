@@ -1,0 +1,21 @@
+# Raw and intermediate data are never committed. They are reproducible
+# from the pipeline and large enough to ruin the repository.
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/out/*
+!data/out/.gitkeep
+site/data/*
+!site/data/.gitkeep
+
+# site/data/ is ignored for humans but force-added by the pipeline
+# workflow (git add -f site/data), so emitted artifacts are versioned
+# only when the pipeline produced and validated them.
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.DS_Store

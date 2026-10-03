@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Como calculamos — UTI no SUS por município</title>
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="site-header">
+  <p><a href="index.html">&larr; Voltar</a></p>
+  <h1>Como calculamos estes números</h1>
+</header>
+
+<main class="prose">
+  <!--
+    Figures marked data-meta are rendered from data/meta.json at load so that a
+    published number cannot drift from the run that produced it. Never hard-code
+    a figure in this file. See docs/06-acceptance.md, milestone M6.
+
+    Required content before any public launch (M6):
+      1. What the data measures, and the five limits from docs/00-overview.md
+      2. The reference model, its c-statistic and its calibration
+      3. Standardisation, shrinkage and what the interval means
+      4. The suppression rule and why most municípios are suppressed
+      5. How many flags are expected by chance under the null
+      6. The four sensitivity analyses and their results
+      7. Responsible-reporting note for journalists
+      8. Licence, source and repository
+  -->
+  <section id="o-que-medimos"></section>
+  <section id="modelo-de-referencia"></section>
+  <section id="padronizacao"></section>
+  <section id="supressao"></section>
+  <section id="falsos-alarmes"></section>
+  <section id="analises-de-sensibilidade"></section>
+  <section id="para-jornalistas"></section>
+  <section id="fontes"></section>
+</main>
+
+<script type="module" src="js/methodology.js"></script>
+</body>
+</html>

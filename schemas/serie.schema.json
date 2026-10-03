@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ter-mar.dev/schemas/serie.schema.json",
+  "title": "serie/{UF}.json",
+  "description": "Annual series, positional against years. null means suppressed in that year. Annual values never drive a verdict.",
+  "type": "object",
+  "required": ["schema", "uf", "years", "municipalities"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "serie/1.0.0" },
+    "uf": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "years": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "integer", "minimum": 1998, "maximum": 2100 }
+    },
+    "municipalities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "residence", "provider"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "integer", "minimum": 1000000, "maximum": 9999999 },
+          "residence": { "$ref": "#/$defs/series" },
+          "provider": { "$ref": "#/$defs/series" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nullableNumbers": {
+      "type": "array",
+      "items": { "type": ["number", "null"], "minimum": 0 }
+    },
+    "series": {
+      "description": "All four arrays must have the same length as years. Checked in validate/schema.py.",
+      "type": "object",
+      "required": ["smr", "smr_ci_low", "smr_ci_high", "stays"],
+      "additionalProperties": false,
+      "properties": {
+        "smr": { "$ref": "#/$defs/nullableNumbers" },
+        "smr_ci_low": { "$ref": "#/$defs/nullableNumbers" },
+        "smr_ci_high": { "$ref": "#/$defs/nullableNumbers" },
+        "stays": { "type": "array", "items": { "type": ["integer", "null"], "minimum": 0 } }
+      }
+    }
+  }
+}

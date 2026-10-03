@@ -1,0 +1,71 @@
+/* ter-mar — all styling. Light and dark, no framework, no build step.
+   Contrast at WCAG AA in both themes. A verdict is never carried by colour
+   alone; it always has a word beside it (docs/04-frontend.md). */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #ffffff;
+  --surface: #f6f7f8;
+  --text: #16191d;
+  --text-quiet: #5b6470;
+  --rule: #d9dee4;
+
+  /* Verdicts. Always paired with a word, never used alone. */
+  --verdict-within: #5b6470;
+  --verdict-above: #a23b2d;
+  --verdict-below: #1f6b4a;
+  --verdict-insufficient: #8a8f98;
+
+  /* Charts. The funnel band, the reference line, the selected point. */
+  --chart-band: #e8ebee;
+  --chart-axis: #9aa2ad;
+  --chart-selected: #1f5fa8;
+
+  --space: 1rem;
+  --measure: 38rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #15181c;
+    --surface: #1d2127;
+    --text: #e8eaed;
+    --text-quiet: #a0a8b4;
+    --rule: #2e343c;
+    --verdict-within: #a0a8b4;
+    --verdict-above: #e08b7d;
+    --verdict-below: #6fc39b;
+    --verdict-insufficient: #767d87;
+    --chart-band: #262c34;
+    --chart-axis: #6b747f;
+    --chart-selected: #6fa8e8;
+  }
+}
+
+:root[data-theme='dark'] { /* same overrides as the media query above */ }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 var(--space) 4rem;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Mobile first. Much of this audience is on a phone, and the municípios that
+   most need this page have the worst connectivity. */
+.site-header { max-width: var(--measure); margin: 0 auto; padding: 2rem 0 1rem; }
+.prose { max-width: var(--measure); margin: 0 auto; }
+.provenance { color: var(--text-quiet); font-size: 0.875rem; }
+
+/* TODO(M5): tiles, tabs, funnel figure, peer table, context strip. */

@@ -1,0 +1,7 @@
+# ICD-10 prefix to clinical group. Versioned with the model: changing a row
+# changes every expected count, so bump Settings.model_version in the same
+# commit. Roughly twenty groups, see docs/02-methodology.md section 2.
+#
+# icd10_prefix,group
+# TODO(M2): populate.
+icd10_prefix,group

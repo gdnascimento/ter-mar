@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ter-mar.dev/schemas/funnel.schema.json",
+  "title": "funnel/{view}.json",
+  "description": "Control-limit curves only. Points are derived in the browser from municipios.json so that each number lives in exactly one place.",
+  "type": "object",
+  "required": ["schema", "view", "phi", "expected_grid", "limits"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "funnel/1.0.0" },
+    "view": { "enum": ["residence", "provider"] },
+    "phi": {
+      "description": "Overdispersion factor. Limits below are ALREADY adjusted by it; this value is carried for display only.",
+      "type": "number", "minimum": 0
+    },
+    "expected_grid": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "number", "exclusiveMinimum": 0 }
+    },
+    "limits": {
+      "type": "object",
+      "required": ["p95", "p998"],
+      "additionalProperties": false,
+      "properties": {
+        "p95": { "$ref": "#/$defs/band" },
+        "p998": { "$ref": "#/$defs/band" }
+      }
+    }
+  },
+  "$defs": {
+    "band": {
+      "description": "lower and upper must each have the same length as expected_grid. Checked in validate/schema.py, not expressible here.",
+      "type": "object",
+      "required": ["lower", "upper"],
+      "additionalProperties": false,
+      "properties": {
+        "lower": { "type": "array", "items": { "type": "number", "minimum": 0 } },
+        "upper": { "type": "array", "items": { "type": "number", "minimum": 0 } }
+      }
+    }
+  }
+}

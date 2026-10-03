@@ -1,0 +1,60 @@
+[project]
+name = "termar"
+version = "0.1.0"
+description = "ICU outcome comparison across Brazilian municipalities from SIH/SUS open data"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb",
+    "polars",
+    "pyarrow",
+    "numpy",
+    "scipy",
+    "statsmodels",
+    "httpx",
+    "jsonschema",
+    "typer",
+    "structlog",
+    # Ingest. PySUS handles the DATASUS .dbc format; plain pandas cannot.
+    # Pin an exact version here after the first successful national ingest.
+    "pysus",
+]
+
+[project.scripts]
+termar = "termar.cli:app"
+
+[dependency-groups]
+dev = ["pytest", "pytest-cov", "ruff", "mypy", "types-jsonschema"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pipeline/termar"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["pipeline", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ANN", "D", "RUF"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "ANN"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["pipeline"]
+addopts = "-q --strict-markers"
+markers = [
+    "invariant: encodes a statistical invariant from docs/02-methodology.md; never skip or xfail",
+    "slow: touches the network or a full-state dataset",
+    "stub: the code under test is still a stub; see tests/conftest.py",
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["pipeline/termar"]

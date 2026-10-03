@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UTI no SUS por município</title>
+<meta name="description" content="Compare desfechos em UTI no SUS entre municípios brasileiros, com incerteza explícita.">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="site-header">
+  <h1>UTI no SUS por município</h1>
+  <!-- Label text comes from js/labels.js. Never hard-code Portuguese here
+       beyond this static shell; see docs/04-frontend.md. -->
+  <form class="search" role="search" autocomplete="off">
+    <label for="busca" class="visually-hidden" data-label="searchPlaceholder"></label>
+    <input id="busca" type="search" role="combobox" aria-expanded="false"
+           aria-controls="busca-resultados" aria-autocomplete="list">
+    <ul id="busca-resultados" role="listbox" hidden></ul>
+  </form>
+  <p class="provenance">
+    <span data-meta="window"></span> ·
+    <span data-meta="extractedAt"></span> ·
+    <a href="metodologia.html" data-label="methodologyLink"></a>
+  </p>
+</header>
+
+<main id="resultado" hidden>
+  <h2 id="municipio-nome"></h2>
+  <p id="municipio-contexto"></p>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-residence" aria-controls="panel-residence"
+            aria-selected="true" data-label="tabResidence"></button>
+    <button role="tab" id="tab-provider" aria-controls="panel-provider"
+            aria-selected="false" data-label="tabProvider"></button>
+  </div>
+
+  <section role="tabpanel" id="panel-residence" aria-labelledby="tab-residence">
+    <div class="tiles"></div>
+    <figure class="funnel"></figure>
+    <table class="peers"></table>
+  </section>
+
+  <section role="tabpanel" id="panel-provider" aria-labelledby="tab-provider" hidden>
+    <div class="tiles"></div>
+    <figure class="funnel"></figure>
+    <table class="peers"></table>
+  </section>
+
+  <aside class="context-strip"></aside>
+</main>
+
+<noscript>
+  <p>Esta página precisa de JavaScript para comparar municípios.
+     Os dados agregados estão em <code>data/municipios.json</code>.</p>
+</noscript>
+
+<footer>
+  <p>Fonte: SIH/SUS, CNES e IBGE (dados abertos). Código e metodologia abertos.</p>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

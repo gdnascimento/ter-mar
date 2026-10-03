@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ter-mar.dev/schemas/busca.schema.json",
+  "title": "busca.json",
+  "description": "Autocomplete index. normalized is lowercase and accent-stripped, precomputed so the browser never normalises 5,570 strings at load.",
+  "type": "object",
+  "required": ["schema", "fields", "rows"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "busca/1.0.0" },
+    "fields": {
+      "type": "array",
+      "const": ["code", "name", "uf", "normalized"]
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 4,
+        "maxItems": 4,
+        "prefixItems": [
+          { "type": "integer", "minimum": 1000000, "maximum": 9999999 },
+          { "type": "string", "minLength": 1 },
+          { "type": "string", "pattern": "^[A-Z]{2}$" },
+          { "type": "string", "pattern": "^[a-z0-9 '-]+$" }
+        ]
+      }
+    }
+  }
+}

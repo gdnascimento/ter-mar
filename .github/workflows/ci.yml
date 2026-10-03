@@ -1,0 +1,48 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - run: uv sync --all-groups
+
+      - name: Lint
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      - name: Type check
+        run: uv run mypy
+
+      - name: Tests
+        run: uv run pytest
+
+      # Guards against the two shortcuts that would quietly void the research:
+      # weakening an invariant test, or lowering a suppression threshold.
+      - name: Invariants are not disabled
+        run: |
+          if grep -rnE '@pytest\.mark\.(skip|xfail)' tests/ ; then
+            echo "::error::invariant tests must never be skipped or xfailed (AGENTS.md)"
+            exit 1
+          fi
+
+      - name: Suppression thresholds unchanged
+        run: |
+          uv run python - <<'PY'
+          from termar.config import Suppression
+          rule = Suppression()
+          assert rule.min_expected_deaths >= 5.0, "min_expected_deaths was lowered"
+          assert rule.min_stays >= 30, "min_stays was lowered"
+          print("suppression thresholds ok")
+          PY

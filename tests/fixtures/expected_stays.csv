@@ -1,0 +1,7 @@
+N_AIH,icu_days,length_of_stay,admitted_at,discharged_at,died,discharge_reason,age_years,in_analysis,note
+1000000000001,4,7,2021-03-05,2021-03-12,0,11,61.0,1,single record
+1000000000002,20,20,2021-03-20,2021-04-09,1,41,74.0,1,two-month chain; death is on the last record
+1000000000003,52,52,2021-06-14,2021-08-04,0,12,45.0,1,three-month chain; records out of order in the file
+1000000000004,0,4,2021-09-02,2021-09-06,0,12,33.0,0,no ICU exposure; excluded from the analytic table
+1000000000005,6,7,2021-10-11,2021-10-18,0,31,58.0,1,transferred out; counts as a survivor in v1
+1000000000006,12,18,2021-11-03,2021-11-21,0,12,0.5,1,COD_IDADE 2 means months; 6 months is 0.5 years not 6

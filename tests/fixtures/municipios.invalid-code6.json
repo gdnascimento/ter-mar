@@ -1,0 +1,86 @@
+{
+  "schema": "municipios/1.0.0",
+  "municipalities": [
+    {
+      "code": 5200050,
+      "name": "Abadia de Goiás",
+      "uf": "GO",
+      "health_region": "52001",
+      "population": 9141,
+      "residence": {
+        "stays": 41,
+        "stays_per_100k": 448.5,
+        "observed_deaths": 9,
+        "expected_deaths": 8.2,
+        "smr": 1.03,
+        "smr_ci": [
+          0.62,
+          1.63
+        ],
+        "p_value": 0.78,
+        "verdict": "within",
+        "treated_outside_pct": 97.6,
+        "suppressed": false
+      },
+      "provider": {
+        "has_icu": false,
+        "icu_beds": 0,
+        "icu_beds_per_100k": 0,
+        "from_other_municipalities_pct": null,
+        "stays": 0,
+        "observed_deaths": 0,
+        "expected_deaths": 0,
+        "smr": null,
+        "smr_ci": null,
+        "p_value": null,
+        "verdict": "insufficient",
+        "suppressed": true
+      },
+      "context": {
+        "private_coverage_pct": 11.4
+      }
+    },
+    {
+      "code": 520870,
+      "name": "Goiânia",
+      "uf": "GO",
+      "health_region": "52001",
+      "population": 1437237,
+      "residence": {
+        "stays": 12840,
+        "stays_per_100k": 893.4,
+        "observed_deaths": 2611,
+        "expected_deaths": 2498.7,
+        "smr": 1.044,
+        "smr_ci": [
+          1.004,
+          1.085
+        ],
+        "p_value": 0.031,
+        "verdict": "within",
+        "treated_outside_pct": 3.1,
+        "suppressed": false
+      },
+      "provider": {
+        "has_icu": true,
+        "icu_beds": 612,
+        "icu_beds_per_100k": 42.6,
+        "from_other_municipalities_pct": 41.3,
+        "stays": 21904,
+        "observed_deaths": 4890,
+        "expected_deaths": 4511.2,
+        "smr": 1.084,
+        "smr_ci": [
+          1.054,
+          1.114
+        ],
+        "p_value": 0.0004,
+        "verdict": "above",
+        "suppressed": false
+      },
+      "context": {
+        "private_coverage_pct": 24.8
+      }
+    }
+  ]
+}

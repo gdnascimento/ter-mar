@@ -1,0 +1,82 @@
+name: pipeline
+
+# The site build never touches DATASUS. This workflow runs the pipeline,
+# commits the emitted artifacts, and deploys. Running it is the only way
+# site/data/ changes.
+on:
+  schedule:
+    - cron: '41 4 1 * *'   # monthly; DATASUS revises past competencias
+  workflow_dispatch:
+    inputs:
+      ufs:
+        description: Space-separated UF codes, or "all"
+        default: GO
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --all-groups
+
+      - name: Ingest, transform, model
+        run: |
+          for uf in ${{ inputs.ufs || 'GO' }}; do
+            uv run termar ingest --uf "$uf" --start 2021-01 --end 2023-12
+            uv run termar transform --uf "$uf"
+          done
+          uv run termar model
+
+      - name: Emit and validate
+        run: |
+          uv run termar emit --out site/data
+          uv run termar validate --out site/data
+
+      # A failing validation must stop the deploy. The gate is the point.
+      - name: Contract tests against the emitted files
+        run: uv run pytest tests/test_emit_contract.py
+
+      - name: Report payload sizes against budget
+        run: |
+          echo "### Payload sizes (gzipped)" >> "$GITHUB_STEP_SUMMARY"
+          find site/data -name '*.json' -print0 \
+            | xargs -0 -I{} sh -c 'printf "%s\t%s\n" "{}" "$(gzip -c "{}" | wc -c)"' \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit artifacts
+        run: |
+          git config user.name  "ter-mar pipeline"
+          git config user.email "noreply@github.com"
+          git add -f site/data
+          git diff --quiet --cached || git commit -m "data: refresh emitted artifacts"
+          git push
+
+  deploy:
+    needs: run
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

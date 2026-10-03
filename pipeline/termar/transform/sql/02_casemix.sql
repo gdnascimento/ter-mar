@@ -1,0 +1,4 @@
+-- Derive case-mix columns on the collapsed stays table.
+-- Variables and levels: docs/02-methodology.md section 2.
+--
+-- TODO(M2): implement. Parameters: {stays_table}, {diagnosis_groups_csv}.

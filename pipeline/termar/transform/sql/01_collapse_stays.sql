@@ -1,0 +1,6 @@
+-- Collapse AIH records into one row per stay. Invariant 1.
+-- See docs/02-methodology.md section 1 for the aggregation rules.
+-- Records may arrive out of order: order by DT_SAIDA / DT_INTER explicitly,
+-- never rely on row order in the parquet files.
+--
+-- TODO(M2): implement. Parameters: {source_table}, {target_table}.
